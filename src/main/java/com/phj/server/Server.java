@@ -5,14 +5,11 @@ import com.phj.server.pretreatment.request.RequestManager;
 
 import java.io.*;
 import java.net.*;
-import java.util.Date;
 
 public class Server implements Runnable{
     private ServerSocket server;
     private final static int LISTEN_PORT = 8080;
-    //换行控制符号
-    public static final String CRLF = "\r\n";
-    public static final String BLANK = " ";
+    private volatile boolean isStop = false;
 
     /**
      * @param args
@@ -41,7 +38,7 @@ public class Server implements Runnable{
     @Override
     public void run() {
         // 轮询监听
-        for (; ; ) {
+        while (!isStop) {
             receive();
         }
     }
@@ -67,7 +64,7 @@ public class Server implements Runnable{
      * 听着服务器
      */
     public void stop() {
-
+        isStop = true;
     }
 
 
