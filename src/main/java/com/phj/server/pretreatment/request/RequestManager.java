@@ -2,7 +2,7 @@ package com.phj.server.pretreatment.request;
 
 import com.phj.server.Factory;
 import com.phj.server.dispatcher.SimpleDispatcher;
-import com.phj.server.model.net.NetStreamModel;
+import com.phj.server.model.net.NetConnect;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class RequestManager {
     // 资源锁
     private Lock mLock = new ReentrantLock();
     // 线程不安全
-    private ArrayList<NetStreamModel> modelList = new ArrayList<>();
+    private ArrayList<NetConnect> modelList = new ArrayList<>();
 
     // 单例模式
     private static class InnerClass {
@@ -34,7 +34,7 @@ public class RequestManager {
     }
 
 
-    public void insertModel(NetStreamModel netStreamModel) {
+    public void insertModel(NetConnect netStreamModel) {
         if (netStreamModel == null)
             return;
         try {
@@ -55,7 +55,7 @@ public class RequestManager {
     }
 
     private final Runnable analysisRunnable = () -> {
-        NetStreamModel streamModel;
+        NetConnect streamModel;
         try {
             mLock.lock();
             if (modelList.size() <= 0) {
@@ -71,7 +71,7 @@ public class RequestManager {
     };
 
 
-    private void realAnalysis(NetStreamModel streamModel) {
+    private void realAnalysis(NetConnect streamModel) {
         byte[] data = new byte[20480];
         int len = 0;
         try {

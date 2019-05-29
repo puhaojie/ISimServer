@@ -1,10 +1,8 @@
 package com.phj.server.pretreatment.response;
 
-import com.phj.server.model.net.NetStreamModel;
-import com.phj.server.util.StreamUtil;
+import com.phj.server.model.net.NetConnect;
 
 import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  * 描述: 返回封装的管理
@@ -24,7 +22,7 @@ public class ResponseManager {
     }
 
 
-    public void response(NetStreamModel streamModel, byte[] bytes) {
+    public void response(NetConnect streamModel, byte[] bytes) {
         if (streamModel == null || bytes == null || bytes.length <= 0)
             return;
         try {

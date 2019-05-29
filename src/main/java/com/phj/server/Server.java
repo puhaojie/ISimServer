@@ -1,6 +1,6 @@
 package com.phj.server;
 
-import com.phj.server.model.net.NetStreamModel;
+import com.phj.server.model.net.NetConnect;
 import com.phj.server.pretreatment.request.RequestManager;
 
 import java.io.*;
@@ -51,7 +51,7 @@ public class Server implements Runnable{
         try {
             Socket client = server.accept();
             // 1.得到数据流
-            NetStreamModel streamModel = new NetStreamModel(client.getInputStream(),client.getOutputStream());
+            NetConnect streamModel = new NetConnect(client.getInputStream(),client.getOutputStream());
             // 2、继续分发处理
             RequestManager.instance.insertModel(streamModel);
 

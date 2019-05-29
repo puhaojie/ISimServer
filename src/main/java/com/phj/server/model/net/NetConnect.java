@@ -13,7 +13,7 @@ import java.util.UUID;
  * create: PHJ
  * time:2019/5/28 10:52
  */
-public class NetStreamModel implements Closeable {
+public class NetConnect implements Closeable {
 
     // 代表着此次会话的标志
     private String uuid = UUID.randomUUID().toString();
@@ -21,9 +21,9 @@ public class NetStreamModel implements Closeable {
     private OutputStream mOutputStream;
 
 
-    public NetStreamModel(InputStream mInputStream, OutputStream mOutputStream) {
+    public NetConnect(InputStream mInputStream, OutputStream mOutputStream) {
         if (mInputStream == null || mOutputStream == null) {
-            throw new NullArgumentExcetion("NetStreamModel stream is null !!");
+            throw new NullArgumentExcetion("NetConnect stream is null !!");
         }
         this.mInputStream = mInputStream;
         this.mOutputStream = mOutputStream;
@@ -61,7 +61,7 @@ public class NetStreamModel implements Closeable {
 
     @Override
     public String toString() {
-        return "NetStreamModel{" +
+        return "NetConnect{" +
                 "uuid='" + uuid + '\'' +
                 '}';
     }
