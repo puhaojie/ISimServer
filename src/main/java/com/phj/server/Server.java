@@ -2,7 +2,10 @@ package com.phj.server;
 
 import com.phj.server.model.net.NetConnect;
 import com.phj.server.pretreatment.request.RequestManager;
+import com.phj.server.register.analysis.Analysis;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.net.*;
 
@@ -15,6 +18,15 @@ public class Server implements Runnable{
      * @param args
      */
     public static void main(String[] args) {
+        try {
+            Analysis.startAnalysis();
+            System.out.println("Analysis web.xml success!");
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            e.printStackTrace();
+            System.out.println("Analysis web.xml failed!");
+            return;
+        }
+
         Server server = new Server();
         server.start();
     }

@@ -1,8 +1,12 @@
 package com.phj.server.pretreatment.response;
 
 import com.phj.server.model.net.NetConnect;
+import com.phj.server.model.response.ServletResponse;
+import com.phj.server.util.StreamUtil;
 
+import java.io.Closeable;
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * 描述: 返回封装的管理
@@ -22,16 +26,16 @@ public class ResponseManager {
     }
 
 
-    public void response(NetConnect streamModel, byte[] bytes) {
-        if (streamModel == null || bytes == null || bytes.length <= 0)
+    public void response(ServletResponse servletResponse, byte[] bytes) {
+        if (servletResponse == null || servletResponse.getOutputStream() == null || bytes == null || bytes.length <= 0)
             return;
         try {
-            streamModel.getOutputStream().write(bytes);
-            streamModel.getOutputStream().flush();
+            servletResponse.getOutputStream().write(bytes);
+            servletResponse.getOutputStream().flush();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            streamModel.close();
+            StreamUtil.close(servletResponse);
         }
 
     }

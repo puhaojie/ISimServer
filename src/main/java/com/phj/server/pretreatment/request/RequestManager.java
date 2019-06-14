@@ -3,6 +3,12 @@ package com.phj.server.pretreatment.request;
 import com.phj.server.Factory;
 import com.phj.server.dispatcher.SimpleDispatcher;
 import com.phj.server.model.net.NetConnect;
+import com.phj.server.model.request.Headers;
+import com.phj.server.model.request.HttpUrl;
+import com.phj.server.model.request.RequestBody;
+import com.phj.server.model.request.ServletRequest;
+import com.phj.server.model.response.ServletResponse;
+import com.phj.server.util.StreamUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -91,11 +97,19 @@ public class RequestManager {
         // 尝试继续调度一次
         executeAnalysis();
 
-        SimpleDispatcher.dispatcher(requestInfo,streamModel);
+        ServletRequest servletRequest = analysisRequest(requestInfo);
+        ServletResponse servletResponse = new ServletResponse(streamModel.getInputStream(),streamModel.getOutputStream());
+        SimpleDispatcher.dispatcher(servletRequest,servletResponse);
 
+    }
 
-
-
+    // TODO: 2019/6/14 用于解析出
+    private ServletRequest analysisRequest(String requestInfo) {
+        HttpUrl url = new HttpUrl("http","127.0.0.1",8080,"/login");
+        String method = "GET";
+        Headers headers = new Headers();
+        RequestBody body = new RequestBody();
+        return new ServletRequest(url,method,headers,body);
     }
 
 }

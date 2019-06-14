@@ -1,38 +1,31 @@
 package com.phj.server.dispatcher;
 
+import com.phj.server.handle.Servlet;
 import com.phj.server.model.net.NetConnect;
-import com.phj.server.pretreatment.response.ResponseManager;
-
-import java.util.Date;
-
-import static com.phj.server.pretreatment.NetParameter.BLANK;
-import static com.phj.server.pretreatment.NetParameter.CRLF;
+import com.phj.server.model.request.ServletRequest;
+import com.phj.server.model.response.ServletResponse;
+import com.phj.server.register.analysis.Analysis;
 
 public class SimpleDispatcher {
 
-    public static void dispatcher(String requestContent, NetConnect streamModel){
+    private static final Analysis mAnalysis = new Analysis();
 
-        System.out.println(requestContent);
-        //响应
-        StringBuilder responseContext = new StringBuilder();
-        responseContext.append("<html><head><title>HTTP响应示例</title>" +
-                "</head><body>Hello world!蒲豪杰</body></html>");
+    /**
+     * 简单的分发器
+     * @param servletRequest 请求参数的解析类
+     * @param servletResponse 相应类
+     */
+    public static void dispatcher(ServletRequest servletRequest, ServletResponse servletResponse){
+
+        System.out.println(servletRequest);
+        Servlet servlet = mAnalysis.getServletByUrl(servletRequest.url().getUrl());
+        if (servlet == null) {
+            System.out.println("request is null,this url is "+servletRequest.url().getUrl());
+            return;
+        }
+        servlet.service(servletRequest,servletResponse);
 
 
-        //1)  HTTP协议版本、状态代码、描述
-        //2)  响应头(ServletResponse Head)
-        //正文长度 ：字节长度
-        //3)正文之前
-        //4)正文
-
-        String response = "HTTP/1.1" + BLANK + "200" + BLANK + "OK" + CRLF +
-                "Server:ISimServer Server/0.0.1" + CRLF +
-                "Date:" + new Date() + CRLF +
-                "Content-type:text/html;charset=UTF-8" + CRLF +
-                "Content-Length:" + responseContext.toString().getBytes().length + CRLF +
-                CRLF +
-                responseContext;
-        ResponseManager.getInstance().response(streamModel, response.getBytes());
 
     }
 

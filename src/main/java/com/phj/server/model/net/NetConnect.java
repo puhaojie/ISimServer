@@ -1,6 +1,6 @@
 package com.phj.server.model.net;
 
-import com.phj.server.excetion.NullArgumentExcetion;
+import com.phj.server.excetion.NullArgumentException;
 import com.phj.server.util.StreamUtil;
 
 import java.io.Closeable;
@@ -23,7 +23,7 @@ public class NetConnect implements Closeable {
 
     public NetConnect(InputStream mInputStream, OutputStream mOutputStream) {
         if (mInputStream == null || mOutputStream == null) {
-            throw new NullArgumentExcetion("NetConnect stream is null !!");
+            throw new NullArgumentException("NetConnect stream is null !!");
         }
         this.mInputStream = mInputStream;
         this.mOutputStream = mOutputStream;
